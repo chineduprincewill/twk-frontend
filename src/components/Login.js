@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import '../App.css';
 import loginIcon from '../images/loginIcon.png';
+
+import { login } from '../actions/auth';
 
 class Login extends Component {
 
@@ -9,11 +14,32 @@ class Login extends Component {
         password: ""
     }
 
+    static propTypes = {
+        isAuthenticated: PropTypes.bool,
+        errors: PropTypes.array,
+        login: PropTypes.func
+    }
+
   onChange = e => this.setState({
     [e.target.name] : e.target.value
   });
+
+  onSubmit = e => {
+      e.preventDefault();
+
+      const creds = {
+          email: this.state.email,
+          password: this.state.password
+      }
+
+      this.props.login(creds);
+  }
   
   render() {
+
+    if(this.props.isAuthenticated){
+        return <Redirect to="/dashboard" />
+    }
 
     const { email, password } = this.state;
 
@@ -33,6 +59,9 @@ class Login extends Component {
                 </div>
                 <div className="right-div  col-lg-6 col-md-11 col-sm-11 p-5">
                     <i className="fa fa-power-off fa-2x mt-5"></i>
+                    <p className="text text-danger text-center">
+                        { this.props.errors.data !== undefined ? this.props.errors.data.error : "" }
+                    </p>
                     <form onSubmit={this.onSubmit} className="mt-3">
                         <div className="form-group">
                             <label>Email</label>
@@ -71,4 +100,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    errors: state.auth.errors
+});
+
+export default connect(mapStateToProps, { login })(Login);
