@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import Roles from './Roles';
 
 class Header extends Component {
+
+    static propTypes = {
+        isAuthencitcated: PropTypes.bool
+    }
+
   render() {
+
+    let navlinks;
+
+    if(this.props.isAuthenticated){
+        navlinks = <Roles />
+    }
+    else{
+        navlinks = <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li className="nav-item">
+                <Link to="/login" className="nav-link" title="sign in">
+                    <i className="fa fa-power-off"></i>
+                </Link>
+            </li>
+        </ul>
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -12,13 +37,7 @@ class Header extends Component {
                 </button>
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li className="nav-item">
-                            <Link to="/login" className="nav-link" title="sign in">
-                                <i className="fa fa-power-off"></i>
-                            </Link>
-                        </li>
-                    </ul>
+                    { navlinks }
                 </div>
             </nav>
         </div>
@@ -27,4 +46,8 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Header);
