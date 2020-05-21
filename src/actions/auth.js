@@ -23,7 +23,7 @@ export const login = (creds) => async(dispatch) => {
         .catch(err => {
             dispatch({
                 type:LOGIN_FAIL,
-                payload: err.response
+                payload: "Invalid email or password!"
             })
         });
 }
