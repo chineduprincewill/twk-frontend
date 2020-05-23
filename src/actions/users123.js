@@ -1,11 +1,6 @@
-import { GET_USERS, GET_USERS_FAIL, ADD_USER, ADD_USER_FAILED, GET_USERS_BEGINS } from './types';
+import { GET_USERS, GET_USERS_FAIL, ADD_USER, ADD_USER_FAILED } from './types';
 
 import axios from 'axios';
-
-export const loadingUsers = () => ({
-    type: GET_USERS_BEGINS
-});
-
 
 export const getUsers = () => async(dispatch) => {
 
@@ -18,7 +13,6 @@ export const getUsers = () => async(dispatch) => {
         }
     };
 
-    dispatch(loadingUsers());
     await axios
         .get('http://twk.herokuapp.com/api/v1/auth', config)
         .then(res => {

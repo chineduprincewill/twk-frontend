@@ -4,7 +4,8 @@ const initialState = {
     token: localStorage.getItem("token"),
     isAuthenticated: false,
     user: {},
-    errors:[]
+    errors:[],
+    loginErr: ''
 }
 
 export default function (state=initialState, action) {
@@ -19,7 +20,7 @@ export default function (state=initialState, action) {
         case LOGIN_FAIL:
             return{
                 ...state,
-                errors: action.payload
+                loginErr: action.payload
             }
         case LOGOUT_SUCCESS:
             localStorage.removeItem("token");
@@ -28,7 +29,8 @@ export default function (state=initialState, action) {
                 token: null,
                 user: {},
                 isAuthenticated: false,
-                errors: []
+                errors: [],
+                loginErr: ''
             }
         default:
             return state

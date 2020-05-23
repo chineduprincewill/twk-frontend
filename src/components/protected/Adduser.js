@@ -56,6 +56,7 @@ class Adduser extends Component {
         return (
            <div className="App-login">
             <div className="container">
+                <h3 className="page-header">Users</h3>
                 <div className="col-12 p-3">
                     <Link to="/users" className="btn btn-warning float-right">Users</Link>
                 </div>

@@ -16,7 +16,7 @@ class Login extends Component {
 
     static propTypes = {
         isAuthenticated: PropTypes.bool,
-        errors: PropTypes.array,
+        loginErr: PropTypes.string,
         login: PropTypes.func
     }
 
@@ -60,7 +60,7 @@ class Login extends Component {
                 <div className="right-div  col-lg-6 col-md-11 col-sm-11 p-5">
                     <i className="fa fa-power-off fa-2x mt-5"></i>
                     <p className="text text-danger text-center">
-                        { this.props.errors.data !== undefined ? this.props.errors.data.error : "" }
+                        { this.props.loginErr }
                     </p>
                     <form onSubmit={this.onSubmit} className="mt-3">
                         <div className="form-group">
@@ -102,7 +102,7 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    errors: state.auth.errors
+    loginErr: state.auth.loginErr
 });
 
 export default connect(mapStateToProps, { login })(Login);

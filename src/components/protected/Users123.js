@@ -10,7 +10,6 @@ import '../../App.css';
 class Users extends Component {
 
     static propTypes = {
-        loading: PropTypes.bool,
         users: PropTypes.array,
         userinfo: PropTypes.object,
         getUsers: PropTypes.func,
@@ -28,41 +27,8 @@ class Users extends Component {
             this.props.logout();
         }
 
-        const { loading, users } = this.props;
-
-        let usersList;
-
-        if(loading){
-            usersList = <div className="text text-info m-3">loading...</div>
-        }
-
-        if(users){
-            const data = Array.from(users);
-
-            usersList = data.map(user => (
-                <tr key={user.id}>                      
-                    <td>{user.lastname}</td>
-                    <td>{user.firstname}</td>
-                    <td>{user.email}</td>
-                    <td>{user.gender}</td>
-                    <td>{user.jobrole}</td>
-                    <td>{user.department}</td>
-                    <td>
-                    <button
-                        className="btn btn-link btn-sm"
-                    >
-                        <i className="fa fa-edit"></i>
-                    </button>
-                    <button
-                        className="btn btn-link btn-sm text-danger"
-                    >
-                        <i className="fa fa-remove"></i>
-                    </button>
-                    </td>
-                </tr>
-                ))
-
-        }
+        const data = Array.from(this.props.users.data);
+        //console.log(data);
 
         return (
         <div className="container">
@@ -85,7 +51,28 @@ class Users extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { usersList }
+                        {data.map(user => (
+                        <tr key={user.id}>                      
+                            <td>{user.lastname}</td>
+                            <td>{user.firstname}</td>
+                            <td>{user.email}</td>
+                            <td>{user.gender}</td>
+                            <td>{user.jobrole}</td>
+                            <td>{user.department}</td>
+                            <td>
+                            <button
+                                className="btn btn-link btn-sm"
+                            >
+                                <i className="fa fa-edit"></i>
+                            </button>
+                            <button
+                                className="btn btn-link btn-sm text-danger"
+                            >
+                                <i className="fa fa-remove"></i>
+                            </button>
+                            </td>
+                        </tr>
+                        ))}
                     </tbody>
                     </table>
             </div>
@@ -94,7 +81,6 @@ class Users extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.users.loading,
     users: state.users.users,
     error: state.users.error,
     userinfo: state.auth.user

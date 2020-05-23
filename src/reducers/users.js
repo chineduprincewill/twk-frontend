@@ -1,7 +1,8 @@
-import { GET_USERS, GET_USERS_FAIL, ADD_USER, ADD_USER_FAILED } from '../actions/types';
+import { GET_USERS, GET_USERS_FAIL, ADD_USER, ADD_USER_FAILED, GET_USERS_BEGINS } from '../actions/types';
 
 const initialState = {
     isAdded: false,
+    loading: false,
     users: [],
     error:{},
     adderror:{}
@@ -9,11 +10,17 @@ const initialState = {
 
 export default function (state=initialState, action) {
     switch(action.type){
+        case GET_USERS_BEGINS:
+            return{
+                ...state,
+                loading: true
+            }
         case GET_USERS:
             return{
                 ...state,
+                loading: false,
                 isAdded: false,
-                users: action.payload
+                users: action.payload.data
             }
         case GET_USERS_FAIL:
             return{
